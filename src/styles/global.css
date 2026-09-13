@@ -1,0 +1,100 @@
+/*
+  global.css
+  ----------
+  Único lugar donde se definen colores y tipografía del sitio.
+  Para cambiar la paleta o las fuentes más adelante, edita solo
+  las variables de :root — no hace falta tocar los componentes.
+*/
+
+:root {
+	/* Colores */
+	--color-primary: #14213d; /* azul oscuro: header, footer, títulos */
+	--color-accent: #fca311; /* naranja: botones y acentos (CTA) */
+	--color-bg: #ffffff;
+	--color-bg-muted: #f5f6f8;
+	--color-text: #1c1c1c;
+	--color-text-muted: #5f6b7a;
+	--color-border: #e2e5ea;
+
+	/* Tipografía */
+	--font-heading: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+	--font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+	/* Layout */
+	--max-width: 72rem;
+	--radius: 8px;
+}
+
+/* Reset simple */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: var(--color-bg);
+	color: var(--color-text);
+	font-family: var(--font-body);
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-family: var(--font-heading);
+	color: var(--color-primary);
+	line-height: 1.2;
+	margin: 0 0 0.5em;
+}
+
+p {
+	margin: 0 0 1em;
+}
+
+a {
+	color: var(--color-primary);
+}
+
+img {
+	max-width: 100%;
+	display: block;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+}
+
+/* Contenedor centrado reutilizable */
+.container {
+	width: 100%;
+	max-width: var(--max-width);
+	margin-inline: auto;
+	padding-inline: 1.5rem;
+}
+
+/* Botón de acento (CTA) */
+.button {
+	display: inline-block;
+	background-color: var(--color-accent);
+	color: var(--color-primary);
+	font-weight: 600;
+	text-decoration: none;
+	padding: 0.75rem 1.5rem;
+	border-radius: var(--radius);
+	border: none;
+	cursor: pointer;
+}
+
+.button:hover {
+	opacity: 0.9;
+}

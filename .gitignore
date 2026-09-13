@@ -1,0 +1,31 @@
+# build output
+dist/
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+# environment variables (nunca subir claves/API keys al repo)
+.env
+.env.*
+!.env.example
+
+# configuración local de CLIs de deploy (IDs de proyecto, no son secretos
+# críticos pero son específicos de cada máquina/cuenta)
+.vercel/
+.netlify/
+
+# macOS-specific files
+.DS_Store
+Thumbs.db
+
+# jetbrains setting folder
+.idea/

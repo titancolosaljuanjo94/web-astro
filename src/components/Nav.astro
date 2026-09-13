@@ -1,0 +1,90 @@
+---
+// Nav.astro
+// Navegación principal del sitio. El orden de los items define el orden
+// en el menú. Para agregar/quitar una sección, edita el array `navItems`.
+const navItems = [
+	{ href: "/", label: "Sobre mí" },
+	{ href: "/recursos", label: "Recursos y experimentos" },
+	{ href: "/servicios", label: "Servicios" },
+	{ href: "/blog", label: "Blog" },
+	{ href: "/contacto", label: "Contacto" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+	<div class="container nav-inner">
+		<a href="/" class="logo" data-nav-logo>Juanjo Quitanas</a>
+		<nav aria-label="Navegación principal">
+			<ul class="nav-list">
+				{
+					navItems.map((item) => {
+						const isActive =
+							item.href === "/"
+								? currentPath === "/"
+								: currentPath.startsWith(item.href);
+						return (
+							<li>
+								<a
+									href={item.href}
+									data-nav-link
+									aria-current={isActive ? "page" : undefined}
+									class:list={["nav-link", { "is-active": isActive }]}
+								>
+									{item.label}
+								</a>
+							</li>
+						);
+					})
+				}
+			</ul>
+		</nav>
+	</div>
+</header>
+
+<style>
+	.site-header {
+		border-bottom: 1px solid var(--color-border);
+		background-color: var(--color-bg);
+	}
+
+	.nav-inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		padding-block: 1rem;
+	}
+
+	.logo {
+		font-family: var(--font-heading);
+		font-weight: 700;
+		color: var(--color-primary);
+		text-decoration: none;
+	}
+
+	.nav-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1.25rem;
+		list-style: none;
+	}
+
+	.nav-link {
+		color: var(--color-text);
+		text-decoration: none;
+		font-size: 0.95rem;
+	}
+
+	.nav-link:hover {
+		color: var(--color-primary);
+	}
+
+	.nav-link.is-active {
+		color: var(--color-primary);
+		font-weight: 600;
+		border-bottom: 2px solid var(--color-accent);
+	}
+</style>

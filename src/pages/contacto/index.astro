@@ -1,0 +1,128 @@
+---
+// pages/contacto/index.astro
+// Formulario de contacto. Todavía NO envía el mensaje a ningún lado real
+// (el sitio no tiene backend): al enviar, hace un dataLayer.push() y
+// muestra un mensaje de confirmación simulado. Ver _README.md en esta
+// misma carpeta para el detalle de cómo conectarlo a un envío real y qué
+// evento configurar en Google Tag Manager.
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout
+	title="Contacto | Juanjo Quitanas"
+	description="Contactame para agendar una llamada o hacer una consulta."
+>
+	<section class="container contact">
+		<h1>Contacto</h1>
+		<p class="contact-intro">
+			Contame brevemente qué necesitás y te respondo por email.
+		</p>
+
+		<form id="form-contacto" class="contact-form" data-form="contacto">
+			<div class="form-field">
+				<label for="nombre">Nombre</label>
+				<input type="text" id="nombre" name="nombre" autocomplete="name" required />
+			</div>
+
+			<div class="form-field">
+				<label for="email">Email</label>
+				<input type="email" id="email" name="email" autocomplete="email" required />
+			</div>
+
+			<div class="form-field">
+				<label for="mensaje">Mensaje</label>
+				<textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+			</div>
+
+			<button type="submit" class="button" data-cta="enviar-contacto">
+				Enviar mensaje
+			</button>
+
+			<p id="form-feedback" class="form-feedback" role="status" hidden></p>
+		</form>
+	</section>
+</Layout>
+
+<style>
+	.contact {
+		padding-block: 4rem;
+	}
+
+	.contact-intro {
+		color: var(--color-text-muted);
+	}
+
+	.contact-form {
+		display: grid;
+		gap: 1.25rem;
+		max-width: 32rem;
+		margin-top: 2rem;
+	}
+
+	.form-field {
+		display: grid;
+		gap: 0.4rem;
+	}
+
+	.form-field label {
+		font-weight: 600;
+		font-size: 0.9rem;
+	}
+
+	.form-field input,
+	.form-field textarea {
+		font: inherit;
+		padding: 0.6rem 0.75rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		background-color: var(--color-bg);
+		color: var(--color-text);
+	}
+
+	.form-field input:focus,
+	.form-field textarea:focus {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 1px;
+	}
+
+	.contact-form .button {
+		justify-self: start;
+	}
+
+	.form-feedback {
+		color: var(--color-primary);
+		font-weight: 600;
+	}
+</style>
+
+<script>
+	// Envío simulado: no hay backend todavía, así que solo empujamos el
+	// evento a dataLayer (para poder armar el trigger en GTM) y mostramos
+	// un mensaje de confirmación. Cuando haya un envío real (Formspree,
+	// Netlify Forms, o una función serverless), este mismo bloque es el
+	// lugar para agregar el fetch/POST correspondiente.
+	const form = document.querySelector('[data-form="contacto"]');
+	const feedback = document.getElementById("form-feedback");
+
+	window.dataLayer = window.dataLayer || [];
+
+	if (form instanceof HTMLFormElement) {
+		form.addEventListener("submit", (event) => {
+			event.preventDefault();
+
+			window.dataLayer.push({
+				event: "contact_form_submit",
+				form_name: "contacto",
+				form_destination: window.location.pathname,
+			});
+
+			if (feedback) {
+				feedback.hidden = false;
+				feedback.textContent =
+					"Gracias, tu mensaje quedó registrado (envío de prueba, todavía no llega a un email real).";
+			}
+
+			form.reset();
+		});
+	}
+</script>

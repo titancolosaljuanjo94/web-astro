@@ -1,0 +1,35 @@
+---
+// Layout.astro
+// Layout base de todas las páginas del sitio. Cada página pasa un
+// `title` y una `description` propios (importantes para SEO) y su
+// contenido va dentro del <slot />.
+import "../styles/global.css";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+	title: string;
+	description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+
+		<title>{title}</title>
+		<meta name="description" content={description} />
+	</head>
+	<body>
+		<Nav />
+		<main>
+			<slot />
+		</main>
+		<Footer />
+	</body>
+</html>

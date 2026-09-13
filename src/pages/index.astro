@@ -1,0 +1,65 @@
+---
+// index.astro
+// Home del sitio = "Sobre mí". Arma la página combinando Layout + Hero +
+// la grilla de servicios. Los textos de cada sección están acá arriba,
+// en el frontmatter, para no tener que buscarlos entre el HTML.
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+
+const services = [
+	{
+		title: "Auditoría SEO técnica",
+		description:
+			"Reviso indexación, rendimiento y estructura del sitio para detectar qué está frenando tu posicionamiento.",
+	},
+	{
+		title: "Arquitectura de contenido",
+		description:
+			"Organizo la información del sitio (URLs, jerarquía, enlazado interno) para que buscadores y usuarios la entiendan.",
+	},
+	{
+		title: "Tracking y atribución",
+		description:
+			"Implemento medición confiable (GA4, GTM) para saber qué canales y contenidos realmente generan resultados.",
+	},
+];
+---
+
+<Layout
+	title="Sobre mí | Juanjo Quitanas"
+	description="Consultoría de SEO técnico, growth y datos."
+>
+	<Hero
+		title="Ayudo a que tu sitio crezca con SEO técnico y datos, no con suposiciones"
+		subtitle="Consultoría de SEO técnico, growth y analítica para negocios que quieren decisiones basadas en datos reales."
+		ctaLabel="Agendar una llamada"
+		ctaHref="/contacto"
+	/>
+
+	<section class="services">
+		<div class="container">
+			<h2>Cómo puedo ayudarte</h2>
+			<div class="services-grid">
+				{
+					services.map((service) => (
+						<ServiceCard title={service.title} description={service.description} />
+					))
+				}
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.services {
+		padding-block: 3rem;
+	}
+
+	.services-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+		gap: 1.5rem;
+		margin-top: 1.5rem;
+	}
+</style>

@@ -1,0 +1,40 @@
+---
+// Hero.astro
+// Bloque principal de la home: título, subtítulo y botón de CTA.
+// `ctaHref` apunta a /contacto por ahora; cámbialo por tu link de
+// Calendly/Cal.com cuando lo tengas.
+interface Props {
+	title: string;
+	subtitle: string;
+	ctaLabel: string;
+	ctaHref: string;
+}
+
+const { title, subtitle, ctaLabel, ctaHref } = Astro.props;
+---
+
+<section class="hero">
+	<div class="container hero-inner">
+		<h1>{title}</h1>
+		<p class="hero-subtitle">{subtitle}</p>
+		<a href={ctaHref} class="button" data-cta="agendar-llamada">
+			{ctaLabel}
+		</a>
+	</div>
+</section>
+
+<style>
+	.hero {
+		background-color: var(--color-bg-muted);
+	}
+
+	.hero-inner {
+		padding-block: 4rem;
+		max-width: 40rem;
+	}
+
+	.hero-subtitle {
+		color: var(--color-text-muted);
+		font-size: 1.15rem;
+	}
+</style>

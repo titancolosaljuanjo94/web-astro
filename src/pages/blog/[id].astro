@@ -1,0 +1,57 @@
+---
+// pages/blog/[id].astro
+// Página de detalle de un post. El [id] en el nombre del archivo es el
+// nombre del .md sin extensión (ver src/content/blog/README.md).
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+	const posts = await getCollection("blog", ({ data }) => !data.draft);
+	return posts.map((post) => ({
+		params: { id: post.id },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout title={`${post.data.title} | Juanjo Quitanas`} description={post.data.description}>
+	<article class="container post">
+		<a href="/blog/" class="back-link">&larr; Volver al blog</a>
+		<h1>{post.data.title}</h1>
+		<p class="post-date">
+			Publicado el {post.data.pubDate.toLocaleDateString("es-AR")}
+			{post.data.updatedDate && (
+				<> · Actualizado el {post.data.updatedDate.toLocaleDateString("es-AR")}</>
+			)}
+		</p>
+		<div class="post-content">
+			<Content />
+		</div>
+	</article>
+</Layout>
+
+<style>
+	.post {
+		padding-block: 3rem;
+		max-width: 42rem;
+	}
+
+	.back-link {
+		display: inline-block;
+		margin-bottom: 1.5rem;
+		font-size: 0.9rem;
+		text-decoration: none;
+	}
+
+	.post-date {
+		color: var(--color-text-muted);
+		font-size: 0.9rem;
+	}
+
+	.post-content {
+		margin-top: 2rem;
+	}
+</style>
