@@ -14,7 +14,14 @@ interface Props {
 }
 
 const { title, description, noindex = false } = Astro.props;
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+// El sitio usa URLs sin slash final (trailingSlash: 'never'), salvo /blog/,
+// que sí lo lleva.
+const isBlogPath = Astro.url.pathname.startsWith("/blog");
+const canonicalPath =
+	isBlogPath && !Astro.url.pathname.endsWith("/")
+		? `${Astro.url.pathname}/`
+		: Astro.url.pathname;
+const canonicalURL = new URL(canonicalPath, Astro.site);
 ---
 
 <html lang="es">

@@ -6,7 +6,7 @@ const navItems = [
 	{ href: "/", label: "Sobre mí" },
 	{ href: "/recursos", label: "Recursos y experimentos" },
 	{ href: "/servicios", label: "Servicios" },
-	{ href: "/blog", label: "Blog" },
+	{ href: "/blog/", label: "Blog" },
 	{ href: "/contacto", label: "Contacto" },
 ];
 
@@ -20,10 +20,11 @@ const currentPath = Astro.url.pathname;
 			<ul class="nav-list">
 				{
 					navItems.map((item) => {
+						const normalizedHref = item.href.replace(/\/$/, "");
 						const isActive =
 							item.href === "/"
 								? currentPath === "/"
-								: currentPath.startsWith(item.href);
+								: currentPath.startsWith(normalizedHref);
 						return (
 							<li>
 								<a
