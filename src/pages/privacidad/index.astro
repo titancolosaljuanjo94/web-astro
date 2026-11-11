@@ -1,0 +1,118 @@
+---
+// pages/privacidad/index.astro
+// Política de privacidad. La pide Google para verificar la marca de la app
+// OAuth (proyecto de Google Cloud con la Google Ads API). Si la herramienta
+// empieza a pedir más permisos o datos, actualizar esta página y la fecha.
+import Layout from "../../layouts/Layout.astro";
+
+const contactEmail = "juanjosequintanasantillan@gmail.com";
+const updated = "10 de noviembre de 2026";
+---
+
+<Layout
+	title="Política de privacidad | Juanjo Quintana"
+	description="Cómo trato los datos de este sitio y de las cuentas de Google Ads que me autorizan a analizar."
+>
+	<article class="container legal">
+		<h1>Política de privacidad</h1>
+		<p class="updated">Última actualización: {updated}</p>
+
+		<p>
+			Este sitio, <strong>juanjodigital.nom.pe</strong>, pertenece a Juanjo Quintana, consultor
+			independiente de SEO y analítica digital en Perú. Esta política explica qué datos trato, para
+			qué y cómo puedes pedir que se borren.
+		</p>
+
+		<h2>1. Datos que recibo por este sitio</h2>
+		<p>
+			Si me escribes por el formulario de contacto o por email, recibo tu nombre, tu email y el
+			mensaje. Los uso solo para responderte y no los comparto ni los vendo.
+		</p>
+
+		<h2>2. Herramienta interna con la Google Ads API</h2>
+		<p>
+			Uso una aplicación propia, conectada a la Google Ads API, para generar reportes de las cuentas
+			de Google Ads de mis clientes. La aplicación solo accede a una cuenta cuando su titular o un
+			usuario autorizado inicia sesión con Google y acepta el permiso
+			<code>https://www.googleapis.com/auth/adwords</code>.
+		</p>
+		<ul>
+			<li>
+				<strong>Qué datos lee:</strong> estructura y métricas de las cuentas autorizadas
+				(campañas, grupos de anuncios, palabras clave, impresiones, clics, costo y conversiones).
+			</li>
+			<li>
+				<strong>Para qué:</strong> preparar reportes y análisis de rendimiento para el mismo
+				cliente que autorizó el acceso.
+			</li>
+			<li>
+				<strong>Dónde se guardan:</strong> en mi equipo de trabajo y, cuando corresponde, en
+				reportes compartidos solo con ese cliente. No se publican ni se combinan con datos de otros
+				clientes.
+			</li>
+			<li>
+				<strong>Con quién se comparten:</strong> con nadie más que el cliente dueño de la cuenta.
+				No vendo estos datos ni los uso para publicidad.
+			</li>
+		</ul>
+		<p>
+			El uso y la transferencia de la información recibida de las APIs de Google cumplen la
+			<a href="https://developers.google.com/terms/api-services-user-data-policy" rel="noopener"
+				>Política de datos de usuario de los servicios de API de Google</a
+			>, incluidos los requisitos de uso limitado.
+		</p>
+
+		<h2>3. Cómo revocar el acceso</h2>
+		<p>
+			Puedes quitar el permiso cuando quieras desde
+			<a href="https://myaccount.google.com/permissions" rel="noopener"
+				>myaccount.google.com/permissions</a
+			>. También puedes escribirme para que borre los reportes y datos guardados de tu cuenta; lo
+			hago en un plazo máximo de 30 días.
+		</p>
+
+		<h2>4. Cookies y analítica</h2>
+		<p>
+			Este sitio puede usar herramientas de analítica, como Google Analytics o Google Tag Manager,
+			para medir visitas de forma agregada. Puedes bloquear las cookies desde la configuración de tu
+			navegador.
+		</p>
+
+		<h2>5. Tus derechos</h2>
+		<p>
+			De acuerdo con la Ley N.º 29733, Ley de Protección de Datos Personales del Perú, puedes pedir
+			acceso, rectificación, cancelación u oposición sobre tus datos escribiendo al email de abajo.
+		</p>
+
+		<h2>6. Contacto</h2>
+		<p>
+			Juanjo Quintana — <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+		</p>
+	</article>
+</Layout>
+
+<style>
+	.legal {
+		padding-block: 4rem;
+		max-width: 48rem;
+	}
+
+	.updated {
+		color: var(--color-text-muted);
+		font-size: 0.9rem;
+	}
+
+	.legal h2 {
+		margin-top: 2rem;
+		font-size: 1.25rem;
+	}
+
+	.legal li {
+		margin-bottom: 0.5rem;
+	}
+
+	.legal code {
+		font-size: 0.85em;
+		word-break: break-all;
+	}
+</style>

@@ -1,16 +1,19 @@
 ---
 // Footer.astro
 // Pie de página simple: nombre, año actual (automático) y email de contacto.
-// Reemplaza `siteName` y `contactEmail` por tus datos reales.
-const siteName = "Tu Nombre";
-const contactEmail = "hola@tudominio.com";
+// Incluye el link a /privacidad (lo pide la verificación de Google).
+const siteName = "Juanjo Quintana";
+const contactEmail = "juanjosequintanasantillan@gmail.com";
 const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
 	<div class="container footer-inner">
 		<p>&copy; {year} {siteName}. Todos los derechos reservados.</p>
-		<a href={`mailto:${contactEmail}`} data-footer-contact>{contactEmail}</a>
+		<nav class="footer-links">
+			<a href="/privacidad" data-footer-privacy>Política de privacidad</a>
+			<a href={`mailto:${contactEmail}`} data-footer-contact>{contactEmail}</a>
+		</nav>
 	</div>
 </footer>
 
@@ -34,6 +37,12 @@ const year = new Date().getFullYear();
 
 	.footer-inner p {
 		margin: 0;
+	}
+
+	.footer-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
 	}
 
 	.footer-inner a {
