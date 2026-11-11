@@ -29,3 +29,6 @@ Thumbs.db
 
 # jetbrains setting folder
 .idea/
+
+# Investigación de artículos (no se publica)
+agente_articulo/

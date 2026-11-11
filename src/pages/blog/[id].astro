@@ -2,6 +2,8 @@
 // pages/blog/[id].astro
 // Página de detalle de un post. El [id] en el nombre del archivo es el
 // nombre del .md sin extensión (ver src/content/blog/README.md).
+// - `seoTitle` (opcional) reemplaza el <title>; si falta: "title | Juanjo Quintana".
+// - `faq` (opcional) se pinta como "Preguntas frecuentes" y genera el schema FAQPage.
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, render } from "astro:content";
 
@@ -15,21 +17,70 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+const { title, seoTitle, description, pubDate, updatedDate, faq } = post.data;
+
+const pageTitle = seoTitle ?? `${title} | Juanjo Quintana`;
+const url = new URL(`/blog/${post.id}/`, Astro.site).toString();
+
+const author = {
+	"@type": "Person",
+	name: "Juanjo Quintana",
+	url: new URL("/", Astro.site).toString(),
+};
+
+const schema: Record<string, unknown>[] = [
+	{
+		"@context": "https://schema.org",
+		"@type": "BlogPosting",
+		headline: title,
+		description,
+		datePublished: pubDate.toISOString(),
+		dateModified: (updatedDate ?? pubDate).toISOString(),
+		author,
+		publisher: author,
+		mainEntityOfPage: url,
+		inLanguage: "es-PE",
+	},
+];
+
+if (faq?.length) {
+	schema.push({
+		"@context": "https://schema.org",
+		"@type": "FAQPage",
+		mainEntity: faq.map(({ q, a }) => ({
+			"@type": "Question",
+			name: q,
+			acceptedAnswer: { "@type": "Answer", text: a },
+		})),
+	});
+}
 ---
 
-<Layout title={`${post.data.title} | Juanjo Quintana`} description={post.data.description}>
+<Layout title={pageTitle} description={description}>
+	<script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
 	<article class="container post">
 		<a href="/blog/" class="back-link">&larr; Volver al blog</a>
-		<h1>{post.data.title}</h1>
+		<h1>{title}</h1>
 		<p class="post-date">
-			Publicado el {post.data.pubDate.toLocaleDateString("es-AR")}
-			{post.data.updatedDate && (
-				<> · Actualizado el {post.data.updatedDate.toLocaleDateString("es-AR")}</>
+			Publicado el {pubDate.toLocaleDateString("es-AR")}
+			{updatedDate && (
+				<> · Actualizado el {updatedDate.toLocaleDateString("es-AR")}</>
 			)}
 		</p>
 		<div class="post-content">
 			<Content />
 		</div>
+		{faq?.length && (
+			<section class="post-faq">
+				<h2>Preguntas frecuentes</h2>
+				{faq.map(({ q, a }) => (
+					<>
+						<h3>{q}</h3>
+						<p>{a}</p>
+					</>
+				))}
+			</section>
+		)}
 	</article>
 </Layout>
 
@@ -53,5 +104,63 @@ const { Content } = await render(post);
 
 	.post-content {
 		margin-top: 2rem;
+	}
+
+	.post-content :global(h2),
+	.post-faq h2 {
+		margin-top: 2.5rem;
+	}
+
+	.post-content :global(h3),
+	.post-faq h3 {
+		margin-top: 1.75rem;
+	}
+
+	.post-content :global(ul),
+	.post-content :global(ol) {
+		padding-left: 1.5rem;
+		margin-bottom: 1em;
+	}
+
+	.post-content :global(li) {
+		margin-bottom: 0.35em;
+	}
+
+	.post-content :global(table) {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 1.5rem 0;
+		font-size: 0.95rem;
+		display: block;
+		overflow-x: auto;
+	}
+
+	.post-content :global(th),
+	.post-content :global(td) {
+		border: 1px solid var(--color-border);
+		padding: 0.6rem 0.75rem;
+		text-align: left;
+		vertical-align: top;
+	}
+
+	.post-content :global(th) {
+		background-color: var(--color-bg-muted);
+		color: var(--color-primary);
+	}
+
+	.post-content :global(blockquote) {
+		margin: 1.5rem 0;
+		padding: 0.75rem 1rem;
+		border-left: 4px solid var(--color-accent);
+		background-color: var(--color-bg-muted);
+	}
+
+	.post-content :global(blockquote p:last-child) {
+		margin-bottom: 0;
+	}
+
+	.post-faq {
+		margin-top: 3rem;
+		border-top: 1px solid var(--color-border);
 	}
 </style>
