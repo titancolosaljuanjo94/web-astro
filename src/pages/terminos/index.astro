@@ -1,0 +1,98 @@
+---
+// pages/terminos/index.astro
+// Condiciones del servicio. Las enlaza la marca OAuth del proyecto de Google
+// Cloud (Google Ads API). Mantener coherente con /privacidad.
+import Layout from "../../layouts/Layout.astro";
+
+const contactEmail = "juanjosequintanasantillan@gmail.com";
+const updated = "10 de noviembre de 2026";
+---
+
+<Layout
+	title="Condiciones del servicio | Juanjo Quintana"
+	description="Condiciones de uso de este sitio y de la herramienta de reportes de Google Ads."
+>
+	<article class="container legal">
+		<h1>Condiciones del servicio</h1>
+		<p class="updated">Última actualización: {updated}</p>
+
+		<p>
+			Estas condiciones regulan el uso de <strong>juanjodigital.nom.pe</strong> y de la herramienta de
+			reportes de Google Ads de Juanjo Quintana, consultor independiente de SEO y analítica digital en
+			Perú. Al usar el sitio o autorizar la herramienta, aceptas estas condiciones.
+		</p>
+
+		<h2>1. El servicio</h2>
+		<p>
+			Ofrezco consultoría en SEO técnico, arquitectura de contenido y medición digital. Como parte de
+			ese trabajo uso una aplicación propia, conectada a la Google Ads API, que lee datos de las
+			cuentas de Google Ads que sus titulares me autorizan para preparar reportes y análisis.
+		</p>
+
+		<h2>2. Autorización de cuentas</h2>
+		<ul>
+			<li>Solo accedo a cuentas cuyo titular o usuario autorizado aceptó el permiso de Google.</li>
+			<li>
+				Quien autoriza declara tener permiso para dar acceso a esa cuenta en nombre de su
+				organización.
+			</li>
+			<li>
+				Puedes revocar el acceso cuando quieras desde
+				<a href="https://myaccount.google.com/permissions" rel="noopener"
+					>myaccount.google.com/permissions</a
+				>.
+			</li>
+		</ul>
+
+		<h2>3. Uso de los datos</h2>
+		<p>
+			Los datos se tratan según la <a href="/privacidad">política de privacidad</a>: se usan solo para
+			el trabajo acordado con el cliente, no se venden y no se comparten con terceros.
+		</p>
+
+		<h2>4. Responsabilidad</h2>
+		<p>
+			Los reportes y recomendaciones se basan en los datos que entregan las plataformas de Google y
+			son orientativos. Las decisiones sobre campañas, presupuestos y sitios web son del cliente. No
+			respondo por interrupciones o cambios de las APIs de terceros.
+		</p>
+
+		<h2>5. Contenido del sitio</h2>
+		<p>
+			Los textos y recursos de este sitio son de mi autoría salvo que se indique lo contrario. Puedes
+			citarlos enlazando la fuente.
+		</p>
+
+		<h2>6. Cambios y ley aplicable</h2>
+		<p>
+			Puedo actualizar estas condiciones; la fecha de arriba indica la última versión. Se rigen por
+			las leyes de la República del Perú.
+		</p>
+
+		<h2>7. Contacto</h2>
+		<p>
+			Juanjo Quintana — <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+		</p>
+	</article>
+</Layout>
+
+<style>
+	.legal {
+		padding-block: 4rem;
+		max-width: 48rem;
+	}
+
+	.updated {
+		color: var(--color-text-muted);
+		font-size: 0.9rem;
+	}
+
+	.legal h2 {
+		margin-top: 2rem;
+		font-size: 1.25rem;
+	}
+
+	.legal li {
+		margin-bottom: 0.5rem;
+	}
+</style>
