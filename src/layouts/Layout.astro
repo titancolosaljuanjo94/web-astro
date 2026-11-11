@@ -11,9 +11,12 @@ interface Props {
 	title: string;
 	description: string;
 	noindex?: boolean;
+	// URL (absoluta o relativa) de la imagen para compartir en redes (og:image).
+	image?: string;
+	ogType?: "website" | "article";
 }
 
-const { title, description, noindex = false } = Astro.props;
+const { title, description, noindex = false, image, ogType = "website" } = Astro.props;
 // El sitio usa URLs sin slash final (trailingSlash: 'never'), salvo /blog/,
 // que sí lo lleva.
 const isBlogPath = Astro.url.pathname.startsWith("/blog");
@@ -22,6 +25,7 @@ const canonicalPath =
 		? `${Astro.url.pathname}/`
 		: Astro.url.pathname;
 const canonicalURL = new URL(canonicalPath, Astro.site);
+const imageURL = image ? new URL(image, Astro.site).toString() : undefined;
 ---
 
 <html lang="es">
@@ -35,6 +39,13 @@ const canonicalURL = new URL(canonicalPath, Astro.site);
 		<meta name="description" content={description} />
 		<meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
 		<link rel="canonical" href={canonicalURL} />
+		<meta property="og:type" content={ogType} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:locale" content="es_PE" />
+		{imageURL && <meta property="og:image" content={imageURL} />}
+		<meta name="twitter:card" content={imageURL ? "summary_large_image" : "summary"} />
 		<slot name="head" />
 	</head>
 	<body>

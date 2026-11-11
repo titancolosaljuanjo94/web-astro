@@ -3,6 +3,7 @@
 // Lista los posts de la colección "blog" (src/content/blog/*.md).
 // Si todavía no hay posts, muestra un mensaje simple.
 import Layout from "../../layouts/Layout.astro";
+import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 
 const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
@@ -22,9 +23,21 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
 			) : (
 				<ul class="posts">
 					{posts.map((post) => (
-						<li>
-							<a href={`/blog/${post.id}/`}>{post.data.title}</a>
-							<p>{post.data.description}</p>
+						<li class={post.data.cover ? "has-cover" : undefined}>
+							{post.data.cover && (
+								<a href={`/blog/${post.id}/`} tabindex="-1" aria-hidden="true">
+									<Image
+										src={post.data.cover}
+										alt=""
+										width={320}
+										class="post-thumb"
+									/>
+								</a>
+							)}
+							<div>
+								<a href={`/blog/${post.id}/`}>{post.data.title}</a>
+								<p>{post.data.description}</p>
+							</div>
 						</li>
 					))}
 				</ul>
@@ -42,6 +55,27 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
 		list-style: none;
 		display: grid;
 		gap: 1.5rem;
+	}
+
+	.has-cover {
+		display: grid;
+		grid-template-columns: 10rem 1fr;
+		gap: 1rem;
+		align-items: start;
+	}
+
+	.post-thumb {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+		border-radius: var(--radius);
+	}
+
+	@media (max-width: 36rem) {
+		.has-cover {
+			grid-template-columns: 1fr;
+		}
 	}
 
 	.posts a {

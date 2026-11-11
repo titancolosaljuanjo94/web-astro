@@ -4,11 +4,21 @@
 // nombre del .md sin extensión (ver src/content/blog/README.md).
 // - `seoTitle` (opcional) reemplaza el <title>; si falta: "title | Juanjo Quintana".
 // - `faq` (opcional) se pinta como "Preguntas frecuentes" y genera el schema FAQPage.
+// - `cover` + `coverAlt` (recomendados): foto de portada; también es la og:image.
+//   Si un post publicado no tiene portada, el build muestra un aviso.
 import Layout from "../../layouts/Layout.astro";
+import { Image, getImage } from "astro:assets";
 import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
 	const posts = await getCollection("blog", ({ data }) => !data.draft);
+	const sinPortada = posts.filter((p) => !p.data.cover).map((p) => p.id);
+	if (sinPortada.length) {
+		console.warn(
+			`\n⚠️  Falta foto de portada (cover + coverAlt) en: ${sinPortada.join(", ")}\n` +
+				"   Agrégala en el frontmatter, p. ej. cover: ./img/<slug>.jpg\n",
+		);
+	}
 	return posts.map((post) => ({
 		params: { id: post.id },
 		props: { post },
@@ -17,7 +27,10 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-const { title, seoTitle, description, pubDate, updatedDate, faq } = post.data;
+const { title, seoTitle, description, pubDate, updatedDate, faq, cover, coverAlt } = post.data;
+
+// Versión 1200 px de la portada para redes sociales y schema.
+const ogImage = cover ? (await getImage({ src: cover, width: 1200, format: "jpg" })).src : undefined;
 
 const pageTitle = seoTitle ?? `${title} | Juanjo Quintana`;
 const url = new URL(`/blog/${post.id}/`, Astro.site).toString();
@@ -40,6 +53,7 @@ const schema: Record<string, unknown>[] = [
 		publisher: author,
 		mainEntityOfPage: url,
 		inLanguage: "es-PE",
+		...(ogImage && { image: new URL(ogImage, Astro.site).toString() }),
 	},
 ];
 
@@ -56,7 +70,7 @@ if (faq?.length) {
 }
 ---
 
-<Layout title={pageTitle} description={description}>
+<Layout title={pageTitle} description={description} image={ogImage} ogType="article">
 	<script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
 	<article class="container post">
 		<a href="/blog/" class="back-link">&larr; Volver al blog</a>
@@ -67,6 +81,17 @@ if (faq?.length) {
 				<> · Actualizado el {updatedDate.toLocaleDateString("es-AR")}</>
 			)}
 		</p>
+		{cover && (
+			<Image
+				src={cover}
+				alt={coverAlt ?? ""}
+				widths={[480, 800, 1200]}
+				sizes="(max-width: 42rem) 100vw, 42rem"
+				class="post-cover"
+				loading="eager"
+				fetchpriority="high"
+			/>
+		)}
 		<div class="post-content">
 			<Content />
 		</div>
@@ -100,6 +125,15 @@ if (faq?.length) {
 	.post-date {
 		color: var(--color-text-muted);
 		font-size: 0.9rem;
+	}
+
+	.post-cover {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+		border-radius: var(--radius);
+		margin-top: 1.5rem;
 	}
 
 	.post-content {
