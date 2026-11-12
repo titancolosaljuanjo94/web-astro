@@ -1,17 +1,63 @@
 ---
 // index.astro
 // Home del sitio = "Sobre mí". Arma la página combinando Layout + Hero +
-// la grilla de servicios. Los textos de cada sección están acá arriba,
-// en el frontmatter, para no tener que buscarlos entre el HTML.
+// resultados, experiencia, servicios, docencia/formación y herramientas.
+// Los textos de cada sección están acá arriba, en el frontmatter, para no
+// tener que buscarlos entre el HTML. Fuente: CV (nov-2026).
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
 import ServiceCard from "../components/ServiceCard.astro";
+
+const stats = [
+	{ value: "+500%", label: "tráfico orgánico en Cibertec con estrategia de contenidos" },
+	{ value: "354K → 600K+", label: "visitas orgánicas en un año en UTP" },
+	{ value: "+40%", label: "sobre la meta de leads en proyectos que lideré" },
+	{ value: "#1", label: "en Google para múltiples carreras universitarias" },
+];
+
+const experience = [
+	{
+		company: "NEO Consulting",
+		role: "Consultor Growth & SEO / GEO",
+		current: true,
+		bullets: [
+			"Lidero estrategias de SEO, GEO (visibilidad en ChatGPT, Gemini y AI Overviews) y Growth para cuentas del sector bancario, como BCP, y otras marcas de seguros, industria y telecomunicaciones.",
+			"Monitoreo cómo aparecen las marcas en las respuestas de IA y produzco contenido optimizado para ser citado.",
+			"Auditorías SEO técnicas, análisis de canibalización, tracking y reportes de rendimiento orgánico brand vs. no brand.",
+		],
+	},
+	{
+		company: "UTP – Universidad Tecnológica del Perú",
+		role: "SEO Senior y AI Growth Specialist",
+		bullets: [
+			"Lideré la estrategia SEO técnica y de contenido: múltiples carreras en el primer lugar de Google y tráfico de 354K a más de 600K en un año.",
+			"Lideré la adopción de IA en el equipo de Marketing con agentes y herramientas end-to-end para Contenido, Paid Media y SEO (Python, FastAPI, GitHub, Google Cloud).",
+			"Miembro del Comité de IA de Intercorp: gobernanza, centralización de herramientas y evangelización de nuevos modelos.",
+			"Definí KPIs y reporting ejecutivo ante gerencia sobre el impacto de la IA en costos por pieza y productividad.",
+		],
+	},
+	{
+		company: "Cibertec – Laureate International Universities",
+		role: "Analista de SEO y Marketing Automation",
+		bullets: [
+			"Lideré el SEO de carreras y cursos, con varias de ellas en las primeras posiciones de Google.",
+			"Diseñé la parrilla de contenidos de la web: más de 500% de crecimiento en tráfico orgánico.",
+			"Adquisición de leads orgánicos y de redes sociales, superando las metas en varios periodos.",
+			"Implementé la estrategia de Marketing Automation en toda la empresa, aumentando la contactabilidad de leads.",
+		],
+	},
+];
 
 const services = [
 	{
 		title: "Auditoría SEO técnica",
 		description:
 			"Reviso indexación, rendimiento y estructura del sitio para detectar qué está frenando tu posicionamiento.",
+	},
+	{
+		title: "GEO: visibilidad en IA",
+		description:
+			"Mido cómo te mencionan ChatGPT, Gemini y AI Overviews, y creo contenido para que te citen a ti y no a tu competencia.",
 	},
 	{
 		title: "Arquitectura de contenido",
@@ -24,20 +70,130 @@ const services = [
 			"Implemento medición confiable (GA4, GTM) para saber qué canales y contenidos realmente generan resultados.",
 	},
 ];
+
+const education = [
+	{
+		title: "Licenciado en Comunicación y Marketing – UPC",
+		detail: "Beca de Honor Laureate (décimo superior). Investigación publicada en revista internacional.",
+	},
+	{
+		title: "Programa Ejecutivo en Digital Analytics y Growth Hacking – Universidad del Pacífico",
+		detail: "GA4, Google Tag Manager, BigQuery, experimentación A/B y growth hacking.",
+	},
+	{
+		title: "Especialización en Experiencia de Usuario (UX) – PUCP",
+		detail: "Design thinking y diseño centrado en el usuario.",
+	},
+	{ title: "Capacitación en Low Code – PUCP", detail: "Automatización con Make y desarrollo web low code." },
+	{
+		title: "Programa de Desarrollo Web y Python – Universidad Continental",
+		detail: "HTML, CSS, JavaScript, MySQL y Python.",
+	},
+];
+
+const tools = [
+	"Google Search Console",
+	"Google Analytics 4",
+	"Google Tag Manager",
+	"Looker Studio",
+	"Google Ads",
+	"Semrush",
+	"Ahrefs",
+	"Screaming Frog",
+	"Microsoft Clarity",
+	"Python",
+	"FastAPI",
+	"APIs",
+	"GitHub",
+	"Google Cloud Platform",
+	"Claude Code",
+	"ChatGPT",
+	"Claude",
+	"Copilot",
+	"Power BI",
+	"Power Automate",
+	"WordPress",
+	"Drupal",
+];
+
+// Datos estructurados Person: ayudan a buscadores e IAs a entender quién soy.
+const personSchema = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	name: "Juan José Quintana Santillán",
+	alternateName: "Juanjo Quintana",
+	url: Astro.site?.toString(),
+	jobTitle: "Consultor Growth & SEO / GEO",
+	worksFor: { "@type": "Organization", name: "NEO Consulting" },
+	alumniOf: [
+		{ "@type": "CollegeOrUniversity", name: "Universidad Peruana de Ciencias Aplicadas (UPC)" },
+		{ "@type": "CollegeOrUniversity", name: "Universidad del Pacífico" },
+		{ "@type": "CollegeOrUniversity", name: "Pontificia Universidad Católica del Perú (PUCP)" },
+	],
+	knowsAbout: [
+		"SEO",
+		"GEO (Generative Engine Optimization)",
+		"AEO",
+		"Growth Marketing",
+		"Analítica digital",
+		"Inteligencia artificial aplicada al marketing",
+	],
+	sameAs: ["https://www.linkedin.com/in/juan-jos%C3%A9-quintana/"],
+};
 ---
 
 <Layout
-	title="Sobre mí | Juanjo Quintana"
-	description="Consultoría de SEO técnico, growth y datos."
+	title="Juanjo Quintana | Consultor Growth, SEO y GEO"
+	description="Consultor Growth & SEO/GEO con más de 5 años de experiencia en banca, educación y servicios. SEO técnico, visibilidad en IA y analítica con resultados medibles."
 >
+	<script type="application/ld+json" slot="head" set:html={JSON.stringify(personSchema)} />
+
 	<Hero
-		title="Ayudo a que tu sitio crezca con SEO técnico y datos, no con suposiciones"
-		subtitle="Consultoría de SEO técnico, growth y analítica para negocios que quieren decisiones basadas en datos reales."
+		title="Ayudo a que tu marca crezca en Google y en las respuestas de IA, con datos y no con suposiciones"
+		subtitle="Consultor Growth & SEO / GEO con más de 5 años de experiencia. Hoy lidero estrategias para cuentas del sector bancario en NEO Consulting."
 		ctaLabel="Agendar una llamada"
 		ctaHref="/contacto"
 	/>
 
-	<section class="services">
+	<section class="section">
+		<div class="container">
+			<h2>Resultados</h2>
+			<ul class="stats-grid">
+				{
+					stats.map((stat) => (
+						<li class="stat">
+							<span class="stat-value">{stat.value}</span>
+							<span class="stat-label">{stat.label}</span>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="section section-muted">
+		<div class="container">
+			<h2>Experiencia</h2>
+			<ol class="timeline">
+				{
+					experience.map((job) => (
+						<li class="job">
+							<h3>
+								{job.role}
+								{job.current && <span class="badge">Actual</span>}
+							</h3>
+							<p class="job-company">{job.company}</p>
+							<ul class="job-bullets">
+								{job.bullets.map((bullet) => <li>{bullet}</li>)}
+							</ul>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</section>
+
+	<section class="section">
 		<div class="container">
 			<h2>Cómo puedo ayudarte</h2>
 			<div class="services-grid">
@@ -49,17 +205,175 @@ const services = [
 			</div>
 		</div>
 	</section>
+
+	<section class="section section-muted">
+		<div class="container two-cols">
+			<div>
+				<h2>Docencia</h2>
+				<h3>Toulouse Lautrec</h3>
+				<p class="job-company">Profesor de SEO e Inteligencia Artificial aplicada al Marketing</p>
+				<p>
+					Dicto cursos prácticos de IA generativa y automatización, y diseño metodologías para que los
+					estudiantes integren la IA en sus flujos de trabajo y eleven su productividad.
+				</p>
+			</div>
+			<div>
+				<h2>Formación</h2>
+				<ul class="education">
+					{
+						education.map((item) => (
+							<li>
+								<strong>{item.title}</strong>
+								<span>{item.detail}</span>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+			<h2>Herramientas</h2>
+			<ul class="tools">
+				{tools.map((tool) => <li>{tool}</li>)}
+			</ul>
+		</div>
+	</section>
 </Layout>
 
 <style>
-	.services {
+	.section {
 		padding-block: 3rem;
 	}
 
+	.section-muted {
+		background-color: var(--color-bg-muted);
+	}
+
+	/* Resultados */
+	.stats-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+		gap: 1.5rem;
+		margin-top: 1.5rem;
+		list-style: none;
+	}
+
+	.stat {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		border-left: 4px solid var(--color-accent);
+		padding-left: 1rem;
+	}
+
+	.stat-value {
+		font-family: var(--font-heading);
+		font-size: 1.75rem;
+		font-weight: 700;
+		color: var(--color-primary);
+	}
+
+	.stat-label {
+		color: var(--color-text-muted);
+		font-size: 0.95rem;
+	}
+
+	/* Experiencia */
+	.timeline {
+		list-style: none;
+		padding: 0;
+		margin: 1.5rem 0 0;
+		display: grid;
+		gap: 2rem;
+	}
+
+	.job {
+		border-left: 2px solid var(--color-border);
+		padding-left: 1.25rem;
+	}
+
+	.job h3 {
+		font-size: 1.15rem;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5rem;
+		margin-bottom: 0.25rem;
+	}
+
+	.badge {
+		background-color: var(--color-accent);
+		color: var(--color-primary);
+		font-size: 0.75rem;
+		font-weight: 600;
+		padding: 0.15rem 0.5rem;
+		border-radius: 999px;
+	}
+
+	.job-company {
+		color: var(--color-text-muted);
+		font-weight: 600;
+		margin-bottom: 0.5rem;
+	}
+
+	.job-bullets {
+		padding-left: 1.25rem;
+		display: grid;
+		gap: 0.35rem;
+	}
+
+	/* Servicios */
 	.services-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 		gap: 1.5rem;
 		margin-top: 1.5rem;
+	}
+
+	/* Docencia y formación */
+	.two-cols {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+		gap: 2.5rem;
+	}
+
+	.two-cols h3 {
+		font-size: 1.1rem;
+		margin-bottom: 0.25rem;
+	}
+
+	.education {
+		list-style: none;
+		display: grid;
+		gap: 1rem;
+	}
+
+	.education li {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.education span {
+		color: var(--color-text-muted);
+		font-size: 0.95rem;
+	}
+
+	/* Herramientas */
+	.tools {
+		list-style: none;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-top: 1rem;
+	}
+
+	.tools li {
+		border: 1px solid var(--color-border);
+		border-radius: 999px;
+		padding: 0.3rem 0.85rem;
+		font-size: 0.9rem;
 	}
 </style>
