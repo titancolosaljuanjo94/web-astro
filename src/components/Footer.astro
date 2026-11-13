@@ -15,6 +15,10 @@ const year = new Date().getFullYear();
 			<a href="/terminos" data-footer-terms>Condiciones del servicio</a>
 			<a href={`mailto:${contactEmail}`} data-footer-contact>{contactEmail}</a>
 		</nav>
+		<p class="footer-projects">
+			Mi proyecto:
+			<a href="https://financieroperuano.nom.pe/" data-footer-project>Financiero Peruano: noticias y simuladores financieros del Perú</a>
+		</p>
 	</div>
 </footer>
 
@@ -44,6 +48,10 @@ const year = new Date().getFullYear();
 		display: flex;
 		flex-wrap: wrap;
 		gap: 1rem;
+	}
+
+	.footer-projects {
+		flex-basis: 100%;
 	}
 
 	.footer-inner a {
